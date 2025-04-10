@@ -4,7 +4,6 @@ Run::Run(char **av)
 {
 
     // Initialize the server
-    MimeTypes mimeTypes("www/mimeTypes.csv");
     std::ifstream file(av[1]);
     Config config;
     config.parseConfig(file);

@@ -22,6 +22,5 @@ public:
     bool is_cgi(const std::string &path, const Config &config, std::string path_location);
     void set_env(const HTTPRequest &request);
     bool exec_cgi(const HTTPRequest &request, std::string &response);
-    bool upload(const HTTPRequest &request, const Config &config);
     int getStatus() const;
 };

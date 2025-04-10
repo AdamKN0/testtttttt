@@ -8,11 +8,10 @@ CXXFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
 Header = main.hpp MimeTypes/MimeTypes.hpp Config/Tokenizer.hpp Config/Config.hpp req/HTTPRequest.hpp
 # Source files and target
 SRCS = main.cpp server.cpp connectionHandeling.cpp runserver.cpp \
-		MimeTypes/MimeTypes.cpp \
 		Config/Tokenizer.cpp Config/utils.cpp \
 		Config/Config.cpp Config/error.cpp Config/get.cpp Config/set.cpp \
 		req/HTTPRequest.cpp req/parseBody.cpp req/parseHeaders.cpp req/parseRequestLine.cpp req/get.cpp \
-		CGI/upload.cpp CGI/CGI.cpp
+		CGI/CGI.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 TARGET = webserver

@@ -1,5 +1,7 @@
 #include "CGI.hpp"
-
+CGI::CGI() : env(), cgi_interpreter(), status(200) {}
+CGI::~CGI() {}
+int CGI::getStatus() const { return status; }
 bool CGI::is_cgi(const std::string &path, const Config &config, std::string path_location)
 {
     if (path.empty() || path == "/favicon.ico")
@@ -46,7 +48,6 @@ std::string int_to_string(int num)
     ss << num;
     return ss.str();
 }
-
 
 void CGI::set_env(const HTTPRequest &request)
 {
@@ -118,7 +119,6 @@ void cleanup_pipes(int *fd_in, int *fd_out)
 }
 bool CGI::exec_cgi(const HTTPRequest &request, std::string &response)
 {
-
 
     set_env(request);
     const std::string &script_path = request.getPath();

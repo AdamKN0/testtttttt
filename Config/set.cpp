@@ -27,6 +27,11 @@ void Config::setHost(std::vector<t_token> &tokens, int *i)
         return;
     }
     std::string &value = tokens[0].value;
+    if (!value.empty() && value == "localhost")
+    {
+        this->host.push_back("127.0.0.1");
+        return;
+    }
     if (value.empty() || !isValidIPAddress(value))
     {
         print_message("Error: Invalid host IP address - must be a valid IPv4 address", RED);

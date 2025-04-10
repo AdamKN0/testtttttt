@@ -29,14 +29,12 @@
 #include <sys/wait.h>
 #include <sys/epoll.h>
 #include <signal.h>
-#include "MimeTypes/MimeTypes.hpp"
 #include "Config/Tokenizer.hpp"
 #include "Config/Config.hpp"
 #include "req/HTTPRequest.hpp"
 #include "CGI/CGI.hpp"
 #include "runserver.hpp"
 
-class MimeTypes;
 class Run;
 class Connection;
 class Tokenizer;
