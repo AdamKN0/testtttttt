@@ -2,7 +2,6 @@
 
 #include "main.hpp"
 #include "server.hpp"
-// #include "./req/HTTPRequest.hpp" // Add this line to include the full definition of HTTPRequest
 class HTTPRequest;
 
 enum Method
@@ -14,13 +13,7 @@ enum Method
 };
 
 
-template <typename T>
-std::string to_string(const T &value)
-{
-    std::ostringstream oss;
-    oss << value;
-    return oss.str();
-}
+
 
 class Connection
 {
@@ -59,13 +52,7 @@ class Connection
     bool chunked;
 
     State state;
-    // bool is_reading;
-    // bool is_writing;
-    // bool is_closing;
-    // bool validUpload;
-    // bool is_possessing;
     bool is_cgi;
-    // const HTTPRequest &request; // This requires the full definition of HTTPRequest
 
     Connection(int fd);
     ~Connection();
@@ -74,6 +61,5 @@ class Connection
     std::string GetContentType();
     std::string GetStatusMessage();
     void GetStateFilePath(Config &config);
-    // void GetBodyResponse();
  
 };

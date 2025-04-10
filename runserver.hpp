@@ -5,6 +5,27 @@ class Connection;  // Forward declaration
 class Server;
 class Config;
 
+
+template <typename T>
+std::string itosg(const T &value)
+{
+    std::ostringstream oss;
+    oss << value;
+    return oss.str();
+}
+template <typename T>
+long stolg(const T &value)
+{
+    std::istringstream iss(value);
+    long result;
+    iss >> result;
+    if (iss.fail()) {
+        throw std::invalid_argument("Invalid argument for stolg");
+    }
+    return result;
+}
+
+
 class Run {
 
     private :
@@ -22,12 +43,9 @@ class Run {
         void add_to_epoll(int fd, uint32_t events);
         void mod_epoll(int fd, uint32_t events);
         void remove_from_epoll(int fd);
-        void printrunservers();
         void runServer();
-        // bool is_new_connection(int fd);
-//         void run();
-//         void closeServer();
-//         void closeConnection();
+        void cleanup();
+
         void handleRequest(Connection *conn);
         bool handleConnection(int fd, int j);
         void readRequest(Connection *conn);

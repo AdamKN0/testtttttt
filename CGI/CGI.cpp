@@ -166,6 +166,10 @@ bool CGI::exec_cgi(const HTTPRequest &request, std::string &response)
         const char *args[] = {interpreter, script_path.c_str(), NULL};
         execve(interpreter, const_cast<char *const *>(args), envp);
         print_message("Script execution failed", RED);
+        for (size_t i = 0; i < env.size(); ++i)
+            free(envp[i]);
+        delete[] envp;
+        cleanup_pipes(fd_in, fd_out);
         exit(EXIT_FAILURE);
     }
     else

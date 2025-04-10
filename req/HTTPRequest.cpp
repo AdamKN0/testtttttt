@@ -2,7 +2,6 @@
 
 bool HTTPRequest::parse_request(const std::string &request, const Config &config)
 {
-    print_message("Parsing request +++++++++++", YELLOW);
     std::istringstream iss(request);
     std::string line;
     if (!std::getline(iss, line))
@@ -23,16 +22,12 @@ bool HTTPRequest::parse_request(const std::string &request, const Config &config
     {
         if (!parseBody(iss, config))
             return false;
-        // long clientMaxBodySize = config.getClientMaxBodySize()[0];
-        // std::string content_length = getHeader("content-length");
-        // if (content_length.empty())
-        //     return (print_message("Content-Length header missing", RED), status = 411, false);
-        // std::string content_type = getHeader("content-type");
-        // if (content_type.empty())
-        //     return (print_message("Content-Type header missing", RED), status = 400, false);
-        // long content_length_l = std::stol(content_length);
-        // if (content_length_l > clientMaxBodySize)
-        //     return (print_message("Request entity too large", RED), status = 413, false);
+        std::string content_length = getHeader("content-length");
+        if (content_length.empty())
+            return (print_message("Content-Length header missing", RED), status = 411, false);
+        std::string content_type = getHeader("content-type");
+        if (content_type.empty())
+            return (print_message("Content-Type header missing", RED), status = 400, false);
     }
     // print_all();
     return true;

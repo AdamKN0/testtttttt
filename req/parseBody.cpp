@@ -2,7 +2,7 @@
 
 void HTTPRequest::parseURLEncodedBody(const std::string &CT)
 {
-    std::vector<std::map<std::string, std::string>> data;
+    std::vector<std::map<std::string, std::string > > data;
     std::istringstream iss(this->boooooooooody);
     std::string key_value;
     while (std::getline(iss, key_value, '&'))
@@ -22,7 +22,7 @@ void HTTPRequest::parseURLEncodedBody(const std::string &CT)
         data.push_back(key_value_map);
     }
     std::string www_form_urlencoded = "";
-    for (std::vector<std::map<std::string, std::string>>::iterator it = data.begin(); it != data.end(); ++it)
+    for (std::vector<std::map<std::string, std::string> >::iterator it = data.begin(); it != data.end(); ++it)
     {
         std::map<std::string, std::string> key_value_map = *it;
         for (std::map<std::string, std::string>::iterator kv_it = key_value_map.begin(); kv_it != key_value_map.end(); ++kv_it)

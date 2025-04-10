@@ -54,6 +54,4 @@ class CGI;
 class Server;
 class Connection;
 class Run;
-// extern std::vector<Config> configs;
-// extern std::vector<Server *> servers;
 void print_message(std::string message, std::string color);
