@@ -82,28 +82,19 @@ bool HTTPRequest::upload(const Config &config, std::string filename, size_t head
     this->boooooooooody = this->boooooooooody.substr(body_start);
     if (this->boooooooooody.length() >= 2 && this->boooooooooody.substr(this->boooooooooody.length() - 2) == "\r\n")
         this->boooooooooody = this->boooooooooody.substr(0, this->boooooooooody.length() - 2);
-    print_message("size of body: " + std::to_string(this->boooooooooody.size()), GREEN);
     outFile << this->boooooooooody;
     if (outFile.good())
         success = true;
     outFile.close();
     if (success)
-    {
-        is_upload = true;
-        print_message("File uploaded successfully", GREEN);
-    }
+        return(is_upload = true, print_message("File uploaded successfully", GREEN), status = 200, true);
     else
-    {
-        print_message("File upload failed", RED);
-        status = 500;
-        return false;
-    }
+        return (print_message("File upload failed", RED), status = 500, false);
     return true;
 }
 
 void HTTPRequest::parsePart(const Config &config)
 {
-    BodyPart part;
     size_t header_end = this->boooooooooody.find("\r\n\r\n");
     if (header_end == std::string::npos)
     {
@@ -118,8 +109,8 @@ void HTTPRequest::parsePart(const Config &config)
         headers_section = this->boooooooooody;
     std::istringstream headers_stream(headers_section);
     std::string header_line;
-    std::string name;
     std::string filename;
+    int is_file = 0;
     while (std::getline(headers_stream, header_line))
     {
         if (!header_line.empty() && header_line[header_line.size() - 1] == '\r')
@@ -127,67 +118,33 @@ void HTTPRequest::parsePart(const Config &config)
         if (header_line.empty())
         {
             print_message("Empty header line", RED);
+            status = 400;
             return;
         }
         if (header_line.substr(0, 20) == "Content-Disposition:")
         {
             std::string value = header_line.substr(20);
-            size_t name_pos = value.find("name=\"");
-            if (name_pos != std::string::npos)
-            {
-                name_pos += 6;
-                size_t name_end = value.find('"', name_pos);
-                if (name_end != std::string::npos)
-                    name = value.substr(name_pos, name_end - name_pos);
-                part.name = name;
-            }
             size_t filename_pos = value.find("filename=\"");
             if (filename_pos != std::string::npos)
             {
                 filename_pos += 10;
                 size_t filename_end = value.find('"', filename_pos);
-                part.is_file = 1;
+                is_file = 1;
                 if (filename_end != std::string::npos)
                     filename = value.substr(filename_pos, filename_end - filename_pos);
-                part.filename = filename;
                 if (filename.empty())
-                    part.filename = "filename";
-            }
-            size_t first_semicolon = value.find(";");
-            if (first_semicolon != std::string::npos)
-            {
-                std::string content_type = value.substr(0, first_semicolon);
-                trim(content_type);
-                part.content_type = content_type;
-            }
-        }
-        else if (header_line.substr(0, 13) == "Content-Type:")
-        {
-            part.type_of_file = header_line.substr(13);
-            trim(part.content_type);
-            if (part.content_type.empty())
-                part.content_type = "text/plain";
-        }
-        else
-        {
-            size_t colon_pos = header_line.find(':');
-            if (colon_pos != std::string::npos)
-            {
-                std::string value = header_line.substr(colon_pos + 1);
-                trim(value);
-                part.content_type = value;
+                    filename = "filename";
             }
         }
     }
-    if (part.is_file == 1 && !part.filename.empty())
+    if (is_file == 1 && !filename.empty())
     {
-        if (upload(config, part.filename, header_end) == false && this->status != 200)
+        if (upload(config, filename, header_end) == false && this->status != 200)
         {
             print_message("Failed to upload file", RED);
             return;
         }
     }
-    print_message("test4", GREEN);
 }
 
 void HTTPRequest::parseMultipartBody(const std::string &CT, const Config &config)
@@ -228,7 +185,6 @@ void HTTPRequest::parseMultipartBody(const std::string &CT, const Config &config
 bool HTTPRequest::parseBody(std::istringstream &iss, const Config &config)
 {
     std::string line;
-    // std::string raw_body;
     while (std::getline(iss, line))
         this->boooooooooody.append(line + "\n");
     if (this->boooooooooody.empty())

@@ -1,12 +1,11 @@
 #include "HTTPRequest.hpp"
-HTTPRequest::HTTPRequest() : method(""),path(""),http_version(""),query_params(),headers(),is_multi_part(0),body_parts(),all_body(""),content_type(""),in_location(""),is_redirect(false),location_redirect(""),is_autoindex(false),autoindex_path(""),is_upload(false), status(200) {}
+HTTPRequest::HTTPRequest() : method(""), path(""), http_version(""), query_params(), headers(), is_multi_part(0), all_body(""), content_type(""), in_location(""), is_redirect(false), boooooooooody(""), location_redirect(""), is_autoindex(false), autoindex_path(""), is_upload(false), status(200){}
 HTTPRequest::~HTTPRequest() {}
 std::string HTTPRequest::getMethod() const { return method; }
 std::string HTTPRequest::getPath() const { return path; }
 std::string HTTPRequest::getHttpVersion() const { return http_version; }
 const std::map<std::string, std::string> &HTTPRequest::getQueryParams() const { return query_params; }
 const std::map<std::string, std::string> &HTTPRequest::getHeaders() const { return headers; }
-const std::vector<BodyPart> &HTTPRequest::getBodyParts() const { return body_parts; }
 std::string HTTPRequest::getBodyContent() const { return all_body; }
 std::string HTTPRequest::getContentType() const { return content_type; }
 int HTTPRequest::getIsMultiPart() const { return is_multi_part; }

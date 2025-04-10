@@ -6,17 +6,6 @@ void trim(std::string &str);
 bool isHex(char c);
 std::string urlDecode(const std::string &encoded);
 class Location;
-struct BodyPart
-{
-    int is_file;
-    // std::ofstream tmp_file_stream; 
-    std::string tmp_file_path;
-    std::string name;
-    std::string filename;
-    std::string type_of_file;
-    std::string content_type;
-    
-};
 
 class HTTPRequest
 {
@@ -27,7 +16,6 @@ private:
     std::map<std::string, std::string> query_params;
     std::map<std::string, std::string> headers;
     int is_multi_part;
-    std::vector<BodyPart> body_parts;
     std::string all_body;
     std::string content_type;
     std::string in_location;
@@ -67,7 +55,6 @@ public:
     std::string getAutoindexPath() const;
     const std::map<std::string, std::string> &getQueryParams() const;
     const std::map<std::string, std::string> &getHeaders() const;
-    const std::vector<BodyPart> &getBodyParts() const;
     std::string getBodyContent() const;
     std::string getContentType() const;
     int getIsMultiPart() const;
